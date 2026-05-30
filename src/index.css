@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Lato", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-cormorant: "Cormorant Garamond", ui-serif, Georgia, serif;
+
+  /* Radiant & Varied Tri-Color Elegant Palette */
+  --color-ana-primary: #D28C77; /* Radiant Corail/Terracotta */
+  --color-ana-accent: #7C9885;  /* Soft Sage Green - Eclat & Nature */
+  --color-ana-bg: #F2EBE3;      /* Warm Luminous background - slightly darker */
+  --color-ana-text: #3D3533;    /* Deep Charcoal Brown */
+  --color-ana-dark: #242E2B;    /* Deep Forest/Slate - High class contrast */
+  --color-ana-pale: #F0E9DF;    /* Warm beige - Soft blocks */
+  --color-ana-gold: #DEAF7B;    /* Radiant Gold / Sand */
+  --color-ana-white: #FFFFFF;   
+  --color-ana-neutral: #F7EFE6; 
+}
+
+/* Custom CSS Styles */
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  background-color: var(--color-ana-bg);
+  color: var(--color-ana-text);
+}
+
+/* Beautiful Radiant Gradient Class */
+.bg-ana-gradient {
+  background: linear-gradient(135deg, var(--color-ana-primary) 0%, var(--color-ana-gold) 50%, var(--color-ana-accent) 100%);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom Scrollbar for better design */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ana-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ana-pale);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ana-primary);
+}

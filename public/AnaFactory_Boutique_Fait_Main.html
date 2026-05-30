@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AnaFactory — Boutique de Créations Personnalisées Artisanales de La Réunion 🇷🇪</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <script>
+    // Configuration Tailwind Custom Colors matching the mandated palette
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ana: {
+              primary: '#B5473C',    // Terracotta
+              bg: '#F7F5F2',         // Blanc cassé
+              text: '#1C1C1C',       // Noir profond
+              pale: '#E8D5D3',       // Terracotta très pâle
+              gold: '#C9A96E',       // Or chaud
+              white: '#FFFFFF',
+              dark: '#1C1C1C',       // Footer / Sombre
+            }
+          },
+          fontFamily: {
+            sans: ['Lato', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            cormorant: ['Cormorant Garamond', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom CSS transitions & animations */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 20s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+    
+    /* Sliding animations */
+    .drawer-transition {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F5F2;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E8D5D3;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #B5473C;
+    }
+  </style>
+</head>
+<body class="bg-ana-bg text-ana-text font-sans antialiased selection:bg-ana-pale selection:text-ana-primary min-h-screen flex flex-col justify-between">
+
+  <!-- ==================== 1. BARRE D'ANNONCE ==================== -->
+  <div class="w-full bg-ana-primary text-white py-2 overflow-hidden select-none border-b border-ana-primary/30 z-50">
+    <div class="animate-marquee whitespace-nowrap text-xs font-bold tracking-widest uppercase flex items-center">
+      <span class="mx-8 font-sans">🌿 Livraison offerte dès 80€ · Créations 100% faites main · Personnalisation sur mesure · Expédition sous 10 jours</span>
+      <span class="mx-8 font-serif italic text-white/50">·</span>
+      <span class="mx-8 font-sans">🌿 Livraison offerte dès 80€ · Créations 100% faites main · Personnalisation sur mesure · Expédition sous 10 jours</span>
+      <span class="mx-8 font-serif italic text-white/50">·</span>
+      <span class="mx-8 font-sans">🌿 Livraison offerte dès 80€ · Créations 100% faites main · Personnalisation sur mesure · Expédition sous 10 jours</span>
+    </div>
+  </div>
+
+
+  <!-- ==================== 2. HEADER ==================== -->
+  <header id="main-header" class="bg-white/95 backdrop-blur-md px-4 sm:px-8 py-3.5 flex items-center justify-between border-b border-ana-pale sticky top-0 z-40 transition-shadow duration-300">
+    <div class="flex items-center gap-4">
+      <!-- Hamburger Menu on Mobile -->
+      <button onclick="toggleMobileMenu(true)" class="md:hidden text-ana-primary hover:bg-ana-pale/20 p-2 rounded-full transition-all cursor-pointer">
+        <span class="text-xl">☰</span>
+      </button>
+
+      <!-- Logo AnaFactory with botanical SVG circle -->
+      <div onclick="scrollToSection('shop-catalogue')" class="flex items-center gap-2 cursor-pointer select-none group">
+        <div class="relative flex items-center justify-center">
+          <svg class="w-10 h-10 text-ana-primary animate-[spin_55s_linear_infinite]" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="38" stroke="currentColor" stroke-width="1.2" stroke-dasharray="6 3" />
+            <path d="M50 10 C53 18, 47 18, 50 10" fill="currentColor" />
+            <path d="M10 50 C18 53, 18 47, 10 50" fill="currentColor" />
+            <path d="M50 90 C53 82, 47 82, 50 90" fill="currentColor" />
+            <path d="M90 50 C82 53, 82 47, 90 50" fill="currentColor" />
+          </svg>
+          <span class="absolute text-sm">🌺</span>
+        </div>
+        
+        <div class="flex flex-col">
+          <h1 class="font-serif text-lg sm:text-2xl font-black text-ana-primary tracking-tight leading-none group-hover:text-ana-dark transition-colors">
+            ANA FACTORY
+          </h1>
+          <span class="text-[7.5px] font-black tracking-[0.3em] text-ana-gold uppercase leading-none mt-1">
+            Atelier Réunionnais
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Search Bar Rounded -->
+    <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+      <input 
+        id="search-input"
+        type="text" 
+        onkeyup="filterProductsInstant(this.value)"
+        placeholder="Rechercher une boîte à dragées, un panneau, un anniversaire..." 
+        class="w-full py-2 pl-10 pr-4 rounded-full bg-ana-bg border-none text-xs text-ana-dark placeholder:text-gray-400 focus:ring-1 focus:ring-ana-primary outline-none shadow-inner"
+      >
+      <span class="absolute left-3.5 top-2.5 text-ana-primary text-xs">🔍</span>
+    </div>
+
+    {/* Right Indicators */}
+    <div class="flex items-center gap-4 sm:gap-6 text-ana-dark select-none">
+      <!-- Account -->
+      <button onclick="openLoginModal()" class="flex flex-col items-center hover:text-ana-primary transition-colors text-center shrink-0">
+        <span class="text-lg">👤</span>
+        <span class="text-[8px] uppercase font-bold mt-1 tracking-widest hidden sm:block">Mon Compte</span>
+      </button>
+
+      <!-- Favorites -->
+      <button onclick="toggleFavoritesDrawer(true)" class="flex flex-col items-center hover:text-ana-primary transition-colors text-center shrink-0 relative">
+        <span class="text-lg">♡</span>
+        <span class="text-[8px] uppercase font-bold mt-1 tracking-widest hidden sm:block">Favoris</span>
+        <span id="fav-badge-count" class="hidden absolute top-0 -right-1 bg-ana-primary text-white text-[8px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
+      </button>
+
+      <!-- Cart Counter -->
+      <button onclick="toggleCartDrawer(true)" class="flex flex-col items-center hover:text-ana-primary transition-colors text-center shrink-0 relative">
+        <span class="text-lg text-ana-primary">🛒</span>
+        <span class="text-[8px] uppercase font-bold mt-1 tracking-widest hidden sm:block">Panier</span>
+        <span id="cart-badge-count" class="absolute top-0 -right-1 bg-ana-primary text-white text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center shadow-md">0</span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ==================== 3. MEGA-MENU BAR ==================== -->
+  <nav class="hidden md:flex bg-white border-b border-ana-pale relative justify-center py-2 z-30 select-none">
+    <ul class="flex items-center gap-8 text-[11px] font-black uppercase tracking-widest">
+      <li onclick="filterCategory('mariage')" class="hover:text-ana-primary cursor-pointer border-b-2 border-transparent hover:border-ana-primary pb-1 transition-all">Mariage</li>
+      <li onclick="filterCategory('naissance')" class="hover:text-ana-primary cursor-pointer border-b-2 border-transparent hover:border-ana-primary pb-1 transition-all">Naissance</li>
+      <li onclick="filterCategory('anniversaire')" class="hover:text-ana-primary cursor-pointer border-b-2 border-transparent hover:border-ana-primary pb-1 transition-all">Anniversaire</li>
+      
+      {/* Mega menu hover */}
+      <li class="relative group pb-1 cursor-pointer">
+        <span class="text-ana-primary hover:text-ana-dark transition-all border-b-2 border-ana-primary pb-1 flex items-center gap-1 font-bold">
+          Les Occasions ▾
+        </span>
+
+        {/* Dropdown float panel */}
+        <div class="absolute top-[100%] left-1/2 -translate-x-1/2 mt-1 w-[440px] bg-white rounded-xl shadow-2xl border border-ana-pale p-5 grid grid-cols-2 gap-4 z-50 pointer-events-none group-hover:pointer-events-auto opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+          <div>
+            <h4 class="text-[10px] font-black tracking-widest text-ana-gold border-b border-ana-bg pb-1.5 mb-2 uppercase">🌿 Baptême & Fêtes</h4>
+            <ul class="space-y-1 text-xs text-left text-ana-text/80">
+              <li onclick="filterCategory('bapteme')" class="hover:text-ana-primary">Baptême/Communion</li>
+              <li class="hover:text-ana-primary">EVJF</li>
+              <li class="hover:text-ana-primary">Fête des Mères</li>
+              <li class="hover:text-ana-primary">Fête des Pères</li>
+              <li class="hover:text-ana-primary">Fête des Mamies</li>
+              <li class="hover:text-ana-primary">Fête des Papis</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-[10px] font-black tracking-widest text-ana-primary border-b border-ana-bg pb-1.5 mb-2 uppercase">🎁 Calendrier Fêtes</h4>
+            <ul class="space-y-1 text-xs text-left text-ana-text/80">
+              <li onclick="filterCategory('fetes')" class="hover:text-ana-primary">Noël & Fêtes</li>
+              <li onclick="filterCategory('valentin')" class="hover:text-ana-primary">Saint-Valentin</li>
+              <li class="hover:text-ana-primary">Halloween</li>
+              <li class="hover:text-ana-primary">Pâques</li>
+              <li class="hover:text-ana-primary">Ramadan</li>
+              <li class="hover:text-ana-primary">Nouvel An</li>
+              <li class="hover:text-ana-primary">Rentrée</li>
+            </ul>
+          </div>
+        </div>
+      </li>
+
+      <li onclick="filterCategory('bapteme')" class="hover:text-ana-primary cursor-pointer border-b-2 border-transparent hover:border-ana-primary pb-1 transition-all">Cadeaux Invités</li>
+      <li onclick="filterCategory('papeterie')" class="hover:text-ana-primary cursor-pointer border-b-2 border-transparent hover:border-ana-primary pb-1 transition-all">Papeterie</li>
+      <li onclick="filterCategory('promotions')" class="text-ana-gold hover:text-ana-primary cursor-pointer border-b-2 border-transparent hover:border-ana-primary pb-1 transition-all font-black">Promotions</li>
+    </ul>
+  </nav>
+
+
+  <!-- ==================== 4. HERO SLIDER ==================== -->
+  <section class="relative h-[280px] sm:h-[450px] w-full bg-white overflow-hidden select-none border-b border-ana-pale">
+    <div id="hero-slider-wrap" class="w-full h-full relative">
+      
+      <!-- Slide 1 -->
+      <div class="hero-slide absolute inset-0 w-full h-full flex flex-col md:flex-row items-center bg-[#E8D5D3] opacity-100 transition-opacity duration-700">
+        <div class="w-full md:w-1/2 p-6 sm:p-12 md:pl-20 flex flex-col justify-center text-left">
+          <span class="text-[10px] uppercase font-black text-ana-primary tracking-[0.4em] mb-2 inline-block">🌿 PIÈCES FAITES MAIN</span>
+          <h2 class="font-serif text-2xl sm:text-4xl text-ana-dark font-black leading-tight mb-3">Des créations uniques,<br>faites avec amour</h2>
+          <p class="font-cormorant text-sm sm:text-lg italic text-[#1C1C1C]/70 mb-5 font-semibold">Cadeaux personnalisés pour toutes vos occasions d'exception</p>
+          <div>
+            <button onclick="scrollToSection('shop-catalogue')" class="bg-ana-primary text-white text-xs font-black tracking-widest px-6 py-3 rounded-lg uppercase shadow-md cursor-pointer">Découvrir l'Atelier</button>
+          </div>
+        </div>
+        <div class="hidden md:flex w-1/2 h-full bg-ana-primary items-center justify-center relative">
+          <div class="text-center text-white p-8">
+            <div class="text-[75px] mb-2 select-none">💍</div>
+            <h3 class="font-serif text-2xl font-bold">Union & Mariage</h3>
+            <p class="text-xs uppercase text-ana-pale tracking-widest font-sans mt-1">Gravures de souvenirs péi</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="hero-slide absolute inset-0 w-full h-full flex flex-col md:flex-row items-center bg-ana-primary opacity-0 transition-opacity duration-700 pointer-events-none">
+        <div class="w-full md:w-1/2 p-6 sm:p-12 md:pl-20 flex flex-col justify-center text-left text-white">
+          <span class="text-[10px] uppercase font-black text-ana-pale tracking-[0.4em] mb-2 inline-block">⭐ CRÉATIONS SUR MESURE</span>
+          <h2 class="font-serif text-2xl sm:text-4xl font-black leading-tight mb-3">Mariage, Baptême,<br>Fêtes & Anniversaires</h2>
+          <p class="font-cormorant text-sm sm:text-lg italic text-ana-pale mb-5 font-semibold">Chaque précieux moment mérite une création unique et délicate.</p>
+          <div>
+            <button onclick="filterCategory('bapteme')" class="bg-white text-ana-primary text-xs font-black tracking-widest px-6 py-3 rounded-lg uppercase shadow-md cursor-pointer">Nos Gravures</button>
+          </div>
+        </div>
+        <div class="hidden md:flex w-1/2 h-full bg-[#1C1C1C]/10 items-center justify-center relative">
+          <div class="text-center text-white p-8">
+            <div class="text-[75px] mb-2 select-none">🍼</div>
+            <h3 class="font-serif text-2xl font-bold text-ana-pale">Naissance & Bébé</h3>
+            <p class="text-xs uppercase text-ana-gold tracking-widest font-sans mt-1">Décorations de chambre uniques</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="hero-slide absolute inset-0 w-full h-full flex flex-col md:flex-row items-center bg-ana-bg opacity-0 transition-opacity duration-700 pointer-events-none">
+        <div class="w-full md:w-1/2 p-6 sm:p-12 md:pl-20 flex flex-col justify-center text-left">
+          <span class="text-[10px] uppercase font-black text-ana-primary tracking-[0.4em] mb-2 inline-block">🚚 EXPÉDITION RÉUNIONS-FRANCE</span>
+          <h2 class="font-serif text-2xl sm:text-4xl text-ana-dark font-black leading-tight mb-3">Livraison offerte<br>dès 80€ d'achat !</h2>
+          <p class="font-cormorant text-sm sm:text-lg italic text-[#1C1C1C]/70 mb-5 font-semibold">Commandez avant jeudi soir pour recevoir votre colis le weekend.</p>
+          <div>
+            <button onclick="filterCategory('promotions')" class="bg-ana-gold text-white text-xs font-black tracking-widest px-6 py-3 rounded-lg uppercase shadow-md cursor-pointer">En profiter maintenant</button>
+          </div>
+        </div>
+        <div class="hidden md:flex w-1/2 h-full bg-ana-pale/30 items-center justify-center relative">
+          <div class="text-center text-ana-primary p-8">
+            <div class="text-[75px] mb-2 select-none">🕊️</div>
+            <h3 class="font-serif text-2xl font-bold text-ana-dark">Cadeaux d'Invités</h3>
+            <p class="text-xs uppercase text-ana-primary tracking-widest font-sans mt-1">Papeterie d'artisanat d'art</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Arrows -->
+    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-ana-primary p-2 rounded-full shadow-md z-20 cursor-pointer">◀</button>
+    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-ana-primary p-2 rounded-full shadow-md z-20 cursor-pointer">▶</button>
+
+    <!-- Nav Dots -->
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+      <span onclick="goToSlide(0)" class="hero-dot w-6 h-2 bg-ana-primary rounded-full cursor-pointer transition-all"></span>
+      <span onclick="goToSlide(1)" class="hero-dot w-2 h-2 bg-ana-primary/30 rounded-full cursor-pointer transition-all"></span>
+      <span onclick="goToSlide(2)" class="hero-dot w-2 h-2 bg-ana-primary/30 rounded-full cursor-pointer transition-all"></span>
+    </div>
+  </section>
+
+
+  <!-- ==================== 5. BANDE RÉASSURANCE ==================== -->
+  <section class="bg-white py-5 px-4 select-none border-b border-ana-pale">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 text-center select-none divide-y md:divide-y-0 md:divide-x divide-ana-pale">
+      <div class="p-2 flex flex-col items-center">
+        <span class="text-xl mb-1">🌿</span>
+        <h4 class="font-serif text-[11px] font-bold uppercase tracking-widest">Fait main à la Réunion</h4>
+        <p class="text-[9.5px] text-gray-400 mt-1 max-w-[150px]">Chaque pièce créée avec minutie</p>
+      </div>
+      <div class="p-2 flex flex-col items-center pt-3 md:pt-2">
+        <span class="text-xl mb-1">✏️</span>
+        <h4 class="font-serif text-[11px] font-bold uppercase tracking-widest">Personnalisable</h4>
+        <p class="text-[9.5px] text-gray-400 mt-1 max-w-[150px]">Prénom, message, et date gravés</p>
+      </div>
+      <div class="p-2 flex flex-col items-center pt-3 md:pt-2">
+        <span class="text-xl mb-1">🚚</span>
+        <h4 class="font-serif text-[11px] font-bold uppercase tracking-widest">Livraison Rapide</h4>
+        <p class="text-[9.5px] text-gray-400 mt-1 max-w-[150px]">Expédition garantie sous 10j</p>
+      </div>
+      <div class="p-2 flex flex-col items-center pt-3 md:pt-2">
+        <span class="text-xl mb-1">⭐</span>
+        <h4 class="font-serif text-[11px] font-bold uppercase tracking-widest">+200 clients ravis</h4>
+        <p class="text-[9.5px] text-gray-400 mt-1 max-w-[150px]">Satisfaits et fidèles à l'Atelier</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 6. GRILLE CATÉGORIES "NOS OCCASIONS" ==================== -->
+  <section class="py-12 px-4 max-w-7xl mx-auto text-center select-none">
+    <h2 class="font-serif text-2xl sm:text-3xl font-black text-ana-dark mb-2">Création pour chaque occasion</h2>
+    <div class="w-12 h-0.5 bg-ana-primary mx-auto mb-8 rounded-full"></div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div onclick="filterCategory('mariage')" class="aspect-square bg-[#E8D5D3] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">💍</span>
+        <h3 class="font-serif text-xs font-bold uppercase">Mariage</h3>
+      </div>
+      <div onclick="filterCategory('naissance')" class="aspect-square bg-[#F7F5F2] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">🍼</span>
+        <h3 class="font-serif text-xs font-bold uppercase">Naissance</h3>
+      </div>
+      <div onclick="filterCategory('anniv-adulte')" class="aspect-square bg-[#E8D5D3] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">🎂</span>
+        <h3 class="font-serif text-xs font-bold text-center leading-none uppercase">Anniversaire Adulte</h3>
+      </div>
+      <div onclick="filterCategory('anniv-enfant')" class="aspect-square bg-[#F7F5F2] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">🎈</span>
+        <h3 class="font-serif text-xs font-bold text-center leading-none uppercase">Anniversaire Enfant</h3>
+      </div>
+      <div onclick="filterCategory('bapteme')" class="aspect-square bg-[#E8D5D3] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">🕊️</span>
+        <h3 class="font-serif text-xs font-bold text-center leading-none uppercase">Baptême / Communion</h3>
+      </div>
+      <div onclick="filterCategory('fetes')" class="aspect-square bg-[#F7F5F2] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">🎄</span>
+        <h3 class="font-serif text-xs font-bold uppercase">Noël & Fêtes</h3>
+      </div>
+      <div onclick="filterCategory('valentin')" class="aspect-square bg-[#E8D5D3] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">🌹</span>
+        <h3 class="font-serif text-xs font-bold text-center leading-none uppercase">Saint-Valentin & EVJF</h3>
+      </div>
+      <div onclick="filterCategory('papeterie')" class="aspect-square bg-[#F7F5F2] p-6 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-ana-primary hover:text-white transition-all transform hover:-translate-y-1 select-none">
+        <span class="text-4xl mb-3">📜</span>
+        <h3 class="font-serif text-xs font-bold uppercase">Papeterie</h3>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 7. SECTION "COUPS DE CŒUR" ==================== -->
+  <section id="shop-catalogue" class="py-12 px-4 max-w-7xl mx-auto">
+    <div class="mb-6 text-left">
+      <h2 class="font-serif text-2xl font-black text-ana-dark flex items-center gap-1.5">⭐ Nos coups de cœur</h2>
+      <p class="text-xs text-gray-400 mt-0.5">Nos plus jolies créations artisanales plébiscitées par la communauté.</p>
+    </div>
+
+    <!-- 8 Product cards grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6" id="coups-grid">
+      <!-- Generated Cards dynamically mapping inputs -->
+    </div>
+  </section>
+
+
+  <!-- ==================== 8. SECTION COMPTEUR PROMO (FLASH SALE) ==================== -->
+  <section class="bg-ana-primary py-12 px-4 text-white text-center relative overflow-hidden select-none">
+    <div class="relative z-10 max-w-3xl mx-auto">
+      <span class="bg-white/15 px-3 py-1 rounded-full text-[10px] font-black tracking-widest mb-3 inline-block uppercase">🔥 OFFRE TEMPORELLE ATELIER</span>
+      <h2 class="font-serif text-2xl sm:text-3xl font-black mb-1">Offre spéciale — Livraison offerte ce weekend !</h2>
+      <p class="text-xs text-ana-pale/90 max-w-md mx-auto mb-6 font-sans">Profitez de l'expédition gratuite Colissimo offerte dès aujourd'hui sur votre commande.</p>
+      
+      {/* Real-time calculated Countdown Box */}
+      <div class="flex justify-center items-center gap-2 sm:gap-4 mb-8 font-mono">
+        <div class="bg-white text-ana-primary px-3 py-2 rounded-xl min-w-[60px] flex flex-col shadow-lg">
+          <span id="timer-days" class="text-lg sm:text-2xl font-black">02</span>
+          <span class="text-[7.5px] font-bold text-gray-400">JOURS</span>
+        </div>
+        <span class="font-black text-white/50 text-xl">:</span>
+        <div class="bg-white text-ana-primary px-3 py-2 rounded-xl min-w-[60px] flex flex-col shadow-lg">
+          <span id="timer-hours" class="text-lg sm:text-2xl font-black">14</span>
+          <span class="text-[7.5px] font-bold text-gray-400">HRS</span>
+        </div>
+        <span class="font-black text-white/50 text-xl">:</span>
+        <div class="bg-white text-ana-primary px-3 py-2 rounded-xl min-w-[60px] flex flex-col shadow-lg">
+          <span id="timer-minutes" class="text-lg sm:text-2xl font-black">22</span>
+          <span class="text-[7.5px] font-bold text-gray-400">MINS</span>
+        </div>
+        <span class="font-black text-white/50 text-xl">:</span>
+        <div class="bg-white text-ana-primary px-3 py-2 rounded-xl min-w-[60px] flex flex-col shadow-lg">
+          <span id="timer-seconds" class="text-lg sm:text-2xl font-black">45</span>
+          <span class="text-[7.5px] font-bold text-gray-400">SECS</span>
+        </div>
+      </div>
+
+      <button onclick="scrollToSection('shop-catalogue')" class="bg-white text-ana-primary text-xs font-black tracking-[0.2em] px-8 py-3.5 rounded-lg uppercase shadow-lg duration-200 hover:bg-ana-pale transition-colors cursor-pointer">En profiter maintenant</button>
+    </div>
+  </section>
+
+
+  <!-- ==================== 9. SECTION "NOUVEAUTÉS" ==================== -->
+  <section class="py-12 px-4 max-w-7xl mx-auto">
+    <div class="flex justify-between items-end mb-6">
+      <div class="text-left">
+        <h2 class="font-serif text-2xl font-black text-ana-dark flex items-center gap-1.5">✨ Dernières créations</h2>
+        <p class="text-xs text-gray-400 mt-0.5">Les nouvelles créations découpées et polies avec finesse à l'atelier.</p>
+      </div>
+    </div>
+
+    <!-- grid for 8 news items -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6" id="news-grid">
+      <!-- Dynamic news products cards -->
+    </div>
+  </section>
+
+
+  <!-- ==================== 10. SECTION AVIS CLIENTS ==================== -->
+  <section class="bg-ana-bg border-t border-b border-ana-pale/60 py-12 px-4">
+    <div class="max-w-7xl mx-auto text-center font-sans">
+      <h2 class="font-serif text-2xl sm:text-3.5xl font-black text-ana-dark mb-2">Ce que disent nos clients ❤️</h2>
+      <div class="w-12 h-0.5 bg-ana-primary mx-auto mb-8 rounded-full"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+        <!-- Review Card 1 -->
+        <div class="bg-white p-5 rounded-2xl border border-ana-pale/40 shadow-[0_2px_10px_rgba(0,0,0,0.01)] flex flex-col justify-between">
+          <div>
+            <div class="flex text-ana-gold text-xs mb-3">⭐⭐⭐⭐⭐</div>
+            <p class="text-xs text-ana-dark/80 italic mb-4 leading-relaxed">"Les boîtes à dragées pour le baptême de ma fille étaient magnifiques, exactement ce que j'avais demandé ! Tout le monde a adoré l'attention personnalisée."</p>
+          </div>
+          <div class="flex items-center gap-3 border-t border-ana-bg pt-3">
+            <div class="w-8 h-8 rounded-full bg-ana-primary text-white font-bold text-xs flex items-center justify-center">SM</div>
+            <div>
+              <div class="text-xs font-bold">Sarah M.</div>
+              <div class="text-[9.5px] text-gray-400 mt-0.5">La Réunion</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Card 2 -->
+        <div class="bg-white p-5 rounded-2xl border border-ana-pale/40 shadow-[0_2px_10px_rgba(0,0,0,0.01)] flex flex-col justify-between">
+          <div>
+            <div class="flex text-ana-gold text-xs mb-3">⭐⭐⭐⭐⭐</div>
+            <p class="text-xs text-ana-dark/80 italic mb-4 leading-relaxed">"Panneau de bienvenue mariage sublime. Livraison rapide, emballage soigné. Merci AnaFactory !"</p>
+          </div>
+          <div class="flex items-center gap-3 border-t border-ana-bg pt-3">
+            <div class="w-8 h-8 rounded-full bg-ana-primary text-white font-bold text-xs flex items-center justify-center">CR</div>
+            <div>
+              <div class="text-xs font-bold">Christelle R.</div>
+              <div class="text-[9.5px] text-gray-400 mt-0.5">Paris</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Card 3 -->
+        <div class="bg-white p-5 rounded-2xl border border-ana-pale/40 shadow-[0_2px_10px_rgba(0,0,0,0.01)] flex flex-col justify-between">
+          <div>
+            <div class="flex text-ana-gold text-xs mb-3">⭐⭐⭐⭐⭐</div>
+            <p class="text-xs text-ana-dark/80 italic mb-4 leading-relaxed">"Produit encore plus beau qu'en photo. Service client au top pour coordonner le design, je recommande à 100% !"</p>
+          </div>
+          <div class="flex items-center gap-3 border-t border-ana-bg pt-3">
+            <div class="w-8 h-8 rounded-full bg-ana-primary text-white font-bold text-xs flex items-center justify-center">FK</div>
+            <div>
+              <div class="text-xs font-bold">Fatima K.</div>
+              <div class="text-[9.5px] text-gray-400 mt-0.5">Marseille</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 11. SECTION NEWSLETTER ==================== -->
+  <section class="bg-ana-primary py-12 px-4 text-white text-center relative overflow-hidden select-none">
+    <div class="relative z-10 max-w-xl mx-auto flex flex-col items-center">
+      <h2 class="font-serif text-2xl sm:text-3xl font-black tracking-wide mb-1 text-white">Rejoignez la famille AnaFactory</h2>
+      <p class="text-xs sm:text-sm text-ana-pale/90 mt-1 mb-6 max-w-sm">Nouveautés, offres exclusives et idées cadeaux directement dans votre boîte mail.</p>
+
+      <form onsubmit="return handleMockNewsletter(event)" id="news-form-standalone" class="flex flex-col sm:flex-row items-stretch w-full rounded-xl overflow-hidden shadow-md gap-2 sm:gap-0">
+        <input 
+          id="news-email-standalone"
+          type="email" 
+          placeholder="Votre adresse email (Ex: julie@gmail.com)" 
+          class="bg-white text-ana-dark text-xs py-3 px-4 flex-1 outline-none sm:rounded-l-xl rounded-xl sm:rounded-none"
+          required
+        >
+        <button type="submit" class="bg-ana-dark hover:bg-white text-white hover:text-ana-primary text-xs font-black tracking-widest px-6 py-3.5 whitespace-nowrap uppercase transition-all duration-300 rounded-xl sm:rounded-r-xl cursor-pointer">Je m'inscris</button>
+      </form>
+      <div id="news-confirm-box" class="hidden bg-white/10 p-4 rounded-xl border border-white/20 text-xs font-serif mt-4 select-none">
+        ✓ Merci ! Vous êtes inscrit(e). Un code de bienvenue vous attend virtuellement.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 12. FOOTER ==================== -->
+  <footer class="bg-ana-dark text-white/80 select-none font-sans">
+    <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+      
+      <!-- Col 1 -->
+      <div class="space-y-4 text-left">
+        <h2 class="font-serif text-lg font-black text-white flex items-center gap-1.5 leading-none"><span>🌺</span> ANA FACTORY</h2>
+        <p class="text-xs text-white/50 leading-relaxed max-w-[210px]">Créations faites main avec amour depuis La Réunion 🌺 Expédiées à votre porte avec soin sous 10 jours.</p>
+        <div class="flex items-center gap-2 pt-1 select-none">
+          <span class="w-7 h-7 rounded-full bg-white/5 hover:bg-ana-primary flex items-center justify-center cursor-pointer transition-colors text-xs">📸</span>
+          <span class="w-7 h-7 rounded-full bg-white/5 hover:bg-ana-primary flex items-center justify-center cursor-pointer transition-colors text-xs">👍</span>
+          <span class="w-7 h-7 rounded-full bg-white/5 hover:bg-ana-primary flex items-center justify-center cursor-pointer transition-colors text-xs">📌</span>
+        </div>
+      </div>
+
+      <!-- Col 2 -->
+      <div class="space-y-3 text-left">
+        <h3 class="font-semibold text-xs tracking-widest text-[#C9A96E] uppercase border-b border-white/5 pb-2">Notre boutique</h3>
+        <ul class="space-y-1.5 text-xs text-white/50">
+          <li onclick="filterCategory('mariage')" class="hover:text-ana-primary cursor-pointer">💍 Mariage</li>
+          <li onclick="filterCategory('naissance')" class="hover:text-ana-primary cursor-pointer">🍼 Naissance</li>
+          <li onclick="filterCategory('anniversaire')" class="hover:text-ana-primary cursor-pointer">🎂 Anniversaire</li>
+          <li onclick="filterCategory('bapteme')" class="hover:text-ana-primary cursor-pointer">🕊️ Baptême / Communion</li>
+          <li onclick="filterCategory('fetes')" class="hover:text-ana-primary cursor-pointer">🎄 Noël & Fêtes</li>
+          <li onclick="filterCategory('papeterie')" class="hover:text-ana-primary cursor-pointer">📜 Papeterie</li>
+        </ul>
+      </div>
+
+      <!-- Col 3 -->
+      <div class="space-y-3 text-left">
+        <h3 class="font-semibold text-xs tracking-widest text-[#C9A96E] uppercase border-b border-white/5 pb-2">Informations</h3>
+        <ul class="space-y-1.5 text-xs text-white/50">
+          <li onclick="alertToast('Conditions de livraison: Colissimo La Poste, port offert dès 80€ 📦')" class="hover:text-ana-primary cursor-pointer">Livraison & délais</li>
+          <li onclick="alertToast('Retours sous 14 jours, frais de retour gratuits ↩️')" class="hover:text-ana-primary cursor-pointer">Politique de retour</li>
+          <li onclick="alertToast('Consultez notre FAQ d\'aide aux commandes personnalisées')" class="hover:text-ana-primary cursor-pointer">FAQ d'informations</li>
+          <li class="hover:text-ana-primary cursor-pointer">CGV générales</li>
+          <li class="hover:text-ana-primary cursor-pointer">Mentions légales / RGPD</li>
+        </ul>
+      </div>
+
+      <!-- Col 4 -->
+      <div class="space-y-3 text-left">
+        <h3 class="font-semibold text-xs tracking-widest text-white uppercase border-b border-white/5 pb-2">Contact</h3>
+        <p class="text-xs text-white/50 leading-none select-text">📩 contact@anafactory.fr</p>
+        <p class="text-[10.5px] text-white/40 leading-none">⏱️ Du lundi au vendredi 9h–18h</p>
+        
+        <form onsubmit="return handleMockContact(event)" id="contact-form-standalone" class="space-y-1.5 pt-1">
+          <input type="text" placeholder="Prénom" class="w-full text-xs p-1.5 bg-white/5 focus:bg-white focus:text-ana-dark rounded text-white outline-none" required>
+          <textarea placeholder="Votre message..." rows="2" class="w-full text-xs p-1.5 bg-white/5 focus:bg-white focus:text-ana-dark rounded text-white outline-none resize-none" required></textarea>
+          <button type="submit" class="w-full bg-ana-primary text-white text-[9px] font-bold py-1.5 rounded uppercase tracking-wider">Envoyer</button>
+        </form>
+        <div id="contact-confirm-standalone" class="hidden bg-white/5 p-2 rounded text-center text-[10px] text-ana-gold">
+          ✓ Message reçu ! L'atelier vous répond sous peu.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Patents and Credits -->
+    <div class="bg-ana-dark border-t border-white/5 py-5 px-6 font-sans">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs select-none">
+        <p class="text-white/40 text-[10.5px] text-center sm:text-left select-text">
+          © 2025 AnaFactory — Tous droits réservés — Fait avec ❤️ à La Réunion
+        </p>
+        
+        <!-- Pay logs -->
+        <div class="flex items-center gap-1.5 opacity-30 select-none grayscale">
+          <span class="bg-white/10 text-white font-bold p-1 rounded text-[9px]">VISA</span>
+          <span class="bg-white/10 text-white font-bold p-1 rounded text-[9px]">MC</span>
+          <span class="bg-white/10 text-white font-bold p-1 rounded text-[9px]">PP</span>
+          <span class="bg-white/10 text-white font-bold p-1 rounded text-[9px]">APPLE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ==================== VANILLA JAVASCRIPT ==================== -->
+  
+  <!-- QUICK PERSONALISATION MODAL OVERLAY -->
+  <div id="quick-view-modal-overlay" class="fixed inset-0 bg-[#1C1C1C]/70 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-ana-bg rounded-2xl max-w-2xl w-full p-6 relative flex flex-col md:flex-row shadow-2xl overflow-y-auto max-h-[90vh]" onclick="event.stopPropagation()">
+      <button onclick="closeQuickViewModal()" class="absolute top-4 right-4 bg-white hover:bg-ana-primary hover:text-white text-ana-primary p-1.5 rounded-full shadow-md z-10 transition-colors pointer-events-auto">✕</button>
+      
+      <div class="md:w-1/2 md:pr-4 flex flex-col justify-between">
+        <div>
+          <span class="bg-ana-pale text-ana-primary text-[9px] font-black tracking-widest px-2.5 py-0.5 rounded-full uppercase">Option Gravure</span>
+          <h3 id="modal-title" class="font-serif text-xl font-bold mt-2 text-ana-dark">Nom de l'article</h3>
+          <p id="modal-desc" class="text-xs text-ana-dark/70 mt-3 font-sans leading-relaxed">Description courte de l'objet artisanal.</p>
+        </div>
+
+        {/* Dynamic preview */}
+        <div class="bg-white p-4 border border-dashed rounded-lg flex items-center justify-center my-4 relative min-h-[140px]">
+          <span id="modal-preview-icon" class="text-5xl text-ana-primary">🎁</span>
+          <div id="modal-preview-text" class="absolute inset-x-0 text-center font-serif text-xs font-bold text-ana-primary max-w-[80%] mx-auto whitespace-nowrap overflow-hidden text-ellipsis bg-white/90 p-1 rounded shadow-xs" style="top:55%"></div>
+        </div>
+      </div>
+
+      <div class="md:w-1/2 md:pl-4 border-t md:border-t-0 md:border-l border-ana-pale pt-4 md:pt-0 flex flex-col justify-between">
+        <form onsubmit="confirmModalSubmit(event)" class="space-y-3.5">
+          <div>
+            <label class="block text-[10px] font-black tracking-wider uppercase mb-1">Texte de personnalisation (Prénom, Msg)</label>
+            <input id="modal-custom-text-input" onkeyup="updateLivePreviewText(this.value)" type="text" placeholder="Ex: Julie, Marc, Love, 10 ans" class="w-full text-xs p-2 bg-white border border-gray-200 focus:outline-ana-primary rounded text-left" required>
+          </div>
+          <div>
+            <label class="block text-[10px] font-black tracking-wider uppercase mb-1">Matière</label>
+            <select id="modal-mat-select" class="w-full text-xs p-2 bg-white border border-gray-200 outline-none rounded cursor-pointer">
+              <option value="Bois Naturel de Bouleau">Bois Naturel de Bouleau</option>
+              <option value="Bois précieux de Goyavier local (+1.50€)">Bois précieux de Goyavier local (+1.50€)</option>
+              <option value="Acrylique Miroir Or (+2.50€)">Acrylique Miroir Or (+2.50€)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-black tracking-wider uppercase mb-1">Attache Ruban</label>
+            <select class="w-full text-xs p-2 bg-white border border-gray-200 outline-none rounded cursor-pointer">
+              <option>Amour de Cordon Lin Brut</option>
+              <option>Satin Terracotta Sauvage</option>
+              <option>Satin Blanc Poudré</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full bg-ana-primary text-white text-xs font-black tracking-widest py-3 rounded-lg uppercase shadow-md">Valider & Ajouter</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SECURE TOAST TO POPUP BANNERS -->
+  <div id="toast-hub-standalone" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-xs pointer-events-none">
+    <!-- Sliding toasts appended dynamically in JS -->
+  </div>
+
+
+  <!-- LOGIN REGISTER WINDOW PANEL -->
+  <div id="login-modal-overlay" class="fixed inset-0 bg-[#1C1C1C]/70 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 relative flex flex-col border border-ana-pale shadow-2xl" onclick="event.stopPropagation()">
+      <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-ana-primary p-2 cursor-pointer font-bold">✕</button>
+      <div class="text-center mb-4">
+        <span class="text-xl">🌿</span>
+        <h3 class="font-serif text-lg font-black text-ana-primary tracking-tight mt-1.5">Mon Compte AnaFactory</h3>
+      </div>
+      <form onsubmit="handleMockLogin(event)" class="space-y-3">
+        <input type="email" placeholder="Email" class="w-full text-xs p-2.5 bg-ana-bg rounded border-none focus:outline-ana-primary text-left" required>
+        <input type="password" placeholder="Mot de passe" class="w-full text-xs p-2.5 bg-ana-bg rounded border-none focus:outline-ana-primary text-left" required>
+        <button type="submit" class="w-full bg-ana-primary text-white text-xs font-black tracking-widest py-2.5 rounded uppercase">Se connecter</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- INTERACTIVE CART DRAWER SIDE CABINET PANEL -->
+  <div id="cart-drawer-overlay" class="fixed inset-0 bg-[#1C1C1C]/60 z-50 backdrop-blur-xs flex justify-end hidden">
+    <div class="bg-white w-full max-w-sm h-full flex flex-col justify-between shadow-2xl drawer-transition translate-x-full" onclick="event.stopPropagation()">
+      
+      <div class="p-4 border-b border-ana-pale flex items-center justify-between bg-ana-bg font-sans">
+        <div class="flex items-center gap-1.5 text-ana-primary font-bold">
+          <span>🛒</span>
+          <h3 class="font-serif text-base font-black">Mon Panier</h3>
+          <span id="cart-drawer-items-count" class="text-[10px] bg-ana-primary text-white font-mono px-2 py-0.5 rounded-full font-bold ml-1">0</span>
+        </div>
+        <button onclick="toggleCartDrawer(false)" class="text-ana-primary hover:bg-ana-pale p-1.5 rounded-full cursor-pointer">✕</button>
+      </div>
+
+      <!-- list inner body scrollable -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-3" id="cart-items-standalone-list">
+        <!-- items will be rendered via standalone JS script -->
+      </div>
+
+      <!-- Sum & Checkouts triggers -->
+      <div class="p-4 bg-ana-bg/85 border-t border-ana-pale space-y-4 font-sans">
+        <div class="space-y-1 text-xs">
+          <div class="flex justify-between text-gray-400">
+            <span>Sous-total :</span>
+            <span id="cart-subtotal-price" class="font-mono font-bold">0.00 €</span>
+          </div>
+          <div class="flex justify-between text-gray-400">
+            <span>Frais d'envoi :</span>
+            <span id="cart-delivery-cost" class="font-mono font-semibold">Offerts (dès 80€)</span>
+          </div>
+          <div class="flex justify-between pt-2 border-t border-ana-pale font-bold text-sm">
+            <span class="font-black uppercase tracking-wide text-ana-primary">Total TTC :</span>
+            <span id="cart-total-price" class="text-base font-black text-ana-primary font-mono">0.00 €</span>
+          </div>
+        </div>
+
+        <button onclick="triggerCheckoutAlert()" class="w-full bg-ana-primary text-white text-xs font-black tracking-widest py-3 rounded-lg uppercase shadow-md cursor-pointer">Passer Commande (Simulation)</button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- FAVORITES DRAWER SIDE DRAWER POPUP -->
+  <div id="favorites-drawer-overlay" class="fixed inset-0 bg-[#1C1C1C]/60 z-50 backdrop-blur-xs flex justify-end hidden">
+    <div class="bg-white w-full max-w-sm h-full flex flex-col justify-between shadow-2xl drawer-transition translate-x-full" onclick="event.stopPropagation()">
+      <div class="p-4 border-b border-ana-pale flex items-center justify-between bg-ana-bg">
+        <div class="flex items-center gap-1 text-ana-primary font-bold">
+          <span>♡</span>
+          <h3 class="font-serif text-base font-black">Mes favoris</h3>
+        </div>
+        <button onclick="toggleFavoritesDrawer(false)" class="text-ana-primary hover:bg-ana-pale p-1.5 rounded-full cursor-pointer">✕</button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 space-y-3" id="fav-items-standalone-list">
+        <!-- Favorites listed here -->
+      </div>
+
+      <div class="p-4 bg-ana-bg text-center text-[10px] text-gray-400">
+        * Stocké sur votre navigateur localement.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- STATIC PRODUCT DATABASE IN STANDALONE -->
+  <script>
+    const STANDALONE_PRODUCTS = [
+      { id: 1, name: "Boîte à dragées personnalisée", price: 8.90, badge: "Populaire", category: "bapteme", emoji: "🎁", desc: "Contenants à dragées décorés de motifs botaniques fins. Matière papier texturé haut de gamme." },
+      { id: 2, name: "Panneau de bienvenue mariage", price: 59.90, badge: "Fait main", category: "mariage", emoji: "📜", desc: "Panneau en bois massif de pin pour accueillir chaleureusement vos invités." },
+      { id: 3, name: "Cake topper prénom", price: 12.90, badge: "Personnalisable", category: "anniversaire", emoji: "👑", desc: "Sublimez votre gâteau de fête. Découpé au laser haute précision." },
+      { id: 4, name: "Faire-part baptême", price: 2.50, badge: "Nouveau", category: "bapteme", emoji: "✉️", desc: "Faire-part minimalisme et champêtre illustré de motifs de colombe de paix." },
+      { id: 5, name: "Marque-place bois gravé", price: 3.20, badge: "Fait main", category: "mariage", emoji: "🪵", desc: "Petits disques de bois de goyavier précieux récoltés à La Réunion, gravés laser indigène." },
+      { id: 6, name: "Bougie personnalisée naissance", price: 14.90, badge: "Populaire", category: "naissance", emoji: "🕯️", desc: "Bougie de cire de soja parfumée fleur de coton en écrin de verre ambré personnalisable." },
+      { id: 7, name: "Kit décoration table anniversaire", price: 34.90, badge: "Personnalisable", category: "anniversaire", emoji: "⭐", desc: "Un nécessaire de table coordonné comprenant guirlandes, confettis bois et toppers." },
+      { id: 8, name: "Magnet souvenir mariage", price: 3.90, badge: "Fait main", category: "mariage", emoji: "❤️", desc: "Magnet en bois découpé en forme de cœur ou de feuille de monstera éco-responsable." },
+      
+      // News different items
+      { id: 9, name: "Couronne florale mariage", price: 45.00, badge: "Nouveau", category: "mariage", emoji: "👑", desc: "Une divine couronne ajustable fait main de fleurs séchées locales et stabilisées. Nuances douces." },
+      { id: 10, name: "Album photo baptême", price: 22.90, badge: "Nouveau", category: "bapteme", emoji: "📖", desc: "Album toilé lin beige, rehaussée d'une illustration botanique minimaliste et d'une gravure." },
+      { id: 11, name: "Sachet organza personnalisé", price: 1.50, badge: "Nouveau", category: "bapteme", emoji: "🛍️", desc: "Sachet d'organza fin blanc mâtiné de lin pour dragées ou fleurs de letchies séchées." },
+      { id: 12, name: "Porte-clés prénom bois", price: 6.90, badge: "Nouveau", category: "fetes", emoji: "🔑", desc: "Porte-clés gravé sur bois d'olivier précieux. Cadeau idéal fêtes des pères/mères." },
+      { id: 13, name: "Tasse personnalisée anniversaire", price: 18.90, badge: "Nouveau", category: "anniversaire", emoji: "☕", desc: "Mug en céramique blanche sublimé de nos aquarelles de feuillages réunionnais." },
+      { id: 14, name: "Carton invitation Noël", price: 3.50, badge: "Nouveau", category: "fetes", emoji: "📋", desc: "Cartoline de vœux scintillante chic avec dorure à chaud pressée à l'or brillant." },
+      { id: 15, name: "Cadre photo naissance", price: 29.90, badge: "Nouveau", category: "naissance", emoji: "🖼️", desc: "Cadre en bois brut à double paroi de verre étanche abritant un herbier pei séché." },
+      { id: 16, name: "Ruban personnalisé", price: 4.20, badge: "Nouveau", category: "mariage", emoji: "✂️", desc: "Mètre de ruban satiné soyeux imprimé en continu avec votre texte doré." },
+    ];
+
+    // Basket & Favorites State Arrays
+    let BASKET = [];
+    let FAVORITES = [];
+    let CURRENT_SLIDE_IDX = 0;
+    let ACTIVE_MODAL_PRODUCT = null;
+
+    // --- SETUP COUNTER (TIME REMAIN TO J+3) ---
+    function setupRealCountdownTimer() {
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() + 3);
+      targetDate.setHours(23, 59, 59, 999);
+
+      setInterval(() => {
+        const difference = targetDate.getTime() - new Date().getTime();
+        if (difference <= 0) return;
+
+        const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+        document.getElementById("timer-days").innerText = String(d).padStart(2, "0");
+        document.getElementById("timer-hours").innerText = String(h).padStart(2, "0");
+        document.getElementById("timer-minutes").innerText = String(m).padStart(2, "0");
+        document.getElementById("timer-seconds").innerText = String(s).padStart(2, "0");
+      }, 1000);
+    }
+
+    // --- SLIDERS HERO (Autoplay 4s) ---
+    function showSlide(idx) {
+      const slides = document.querySelectorAll(".hero-slide");
+      const dots = document.querySelectorAll(".hero-dot");
+      
+      slides.forEach((slide, sIdx) => {
+        if (sIdx === idx) {
+          slide.classList.remove("opacity-0", "pointer-events-none");
+          slide.classList.add("opacity-100");
+          slide.style.zIndex = "10";
+        } else {
+          slide.classList.remove("opacity-100");
+          slide.classList.add("opacity-0", "pointer-events-none");
+          slide.style.zIndex = "0";
+        }
+      });
+
+      dots.forEach((dot, dIdx) => {
+        if (dIdx === idx) {
+          dot.classList.remove("w-2", "bg-ana-primary/30");
+          dot.classList.add("w-6", "bg-ana-primary");
+        } else {
+          dot.classList.remove("w-6", "bg-ana-primary");
+          dot.classList.add("w-2", "bg-ana-primary/30");
+        }
+      });
+      CURRENT_SLIDE_IDX = idx;
+    }
+
+    function nextSlide() {
+      let next = (CURRENT_SLIDE_IDX + 1) % 3;
+      showSlide(next);
+    }
+    function prevSlide() {
+      let prev = CURRENT_SLIDE_IDX === 0 ? 2 : CURRENT_SLIDE_IDX - 1;
+      showSlide(prev);
+    }
+    function goToSlide(idx) {
+      showSlide(idx);
+    }
+    setInterval(nextSlide, 4500);
+
+    // --- SCROLL REVEAL / SECTION GOTOS ---
+    function scrollToSection(id) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    // --- SLIDING DRAWERS TRIGGER ---
+    function toggleCartDrawer(open) {
+      const overlay = document.getElementById("cart-drawer-overlay");
+      const drawer = overlay.querySelector(".drawer-transition");
+      if (open) {
+        overlay.classList.remove("hidden");
+        setTimeout(() => drawer.classList.remove("translate-x-full"), 10);
+      } else {
+        drawer.classList.add("translate-x-full");
+        setTimeout(() => overlay.classList.add("hidden"), 300);
+      }
+    }
+
+    function toggleFavoritesDrawer(open) {
+      const overlay = document.getElementById("favorites-drawer-overlay");
+      const drawer = overlay.querySelector(".drawer-transition");
+      if (open) {
+        overlay.classList.remove("hidden");
+        setTimeout(() => drawer.classList.remove("translate-x-full"), 10);
+      } else {
+        drawer.classList.add("translate-x-full");
+        setTimeout(() => overlay.classList.add("hidden"), 300);
+      }
+    }
+
+    function toggleMobileMenu(open) {
+      // Just a mock warning as responsive navigation covers desktop/mobile grids dynamically
+      alertToast(open ? "Menu mobile affiché 🌿 Défilez vers le bas pour voir nos 8 catégories" : "Menu fermé");
+    }
+
+    // --- DYNAMIC TOAST NOTIFICATIONS ---
+    function alertToast(message, type = "success") {
+      const hub = document.getElementById("toast-hub-standalone");
+      const id = "toast_" + Math.random().toString(36).substring(2, 7);
+      
+      const el = document.createElement("div");
+      el.id = id;
+      el.className = "bg-ana-dark border border-white/10 text-white rounded-xl shadow-xl px-4 py-3 flex items-center gap-2.5 text-xs font-bold leading-normal transition-all duration-300 pointer-events-auto transform translate-y-2 opacity-0";
+      el.innerHTML = `<span>✓</span> <span>${message}</span>`;
+      
+      hub.appendChild(el);
+      
+      setTimeout(() => {
+        el.classList.remove("translate-y-2", "opacity-0");
+      }, 10);
+
+      setTimeout(() => {
+        el.classList.add("translate-y-2", "opacity-0");
+        setTimeout(() => el.remove(), 350);
+      }, 3500);
+    }
+
+    // --- RENDER GRID CARDS ---
+    function drawProductListingCards(filterCatId = "all") {
+      const coupsGrid = document.getElementById("coups-grid");
+      const newsGrid = document.getElementById("news-grid");
+      
+      coupsGrid.innerHTML = "";
+      newsGrid.innerHTML = "";
+
+      STANDALONE_PRODUCTS.forEach((p) => {
+        const matchesCategory = filterCatId === "all" || filterCatId === "promotions" || p.category.includes(filterCatId);
+        
+        if (!matchesCategory) return;
+
+        const isFav = FAVORITES.includes(p.id);
+        const cardHtml = `
+          <div class="group relative bg-white rounded-xl p-3 flex flex-col justify-between border border-transparent shadow-[0_4px_12px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-ana-pale transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+            <div class="flex justify-between items-center absolute top-3 left-3 right-3 z-10">
+              <span class="bg-ana-primary text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${p.badge}</span>
+              <button onclick="toggleFavStandalone(${p.id})" class="bg-white/95 text-ana-primary p-1.5 rounded-full shadow-md text-xs">
+                ${isFav ? '❤️' : '♡'}
+              </button>
+            </div>
+
+            <div onclick="openQuickViewModal(${p.id})" class="w-full aspect-square bg-ana-bg rounded-lg flex items-center justify-center mb-3 cursor-pointer relative overflow-hidden group-hover:bg-ana-pale/30 transition-colors">
+              <span class="text-6xl select-none transform transition-transform group-hover:scale-110 duration-300">${p.emoji}</span>
+              <div class="absolute inset-0 bg-ana-primary/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span class="bg-white/90 text-ana-primary text-[9.5px] font-bold px-3 py-1.5 rounded-full shadow-md">🌿 Personnaliser</span>
+              </div>
+            </div>
+
+            <div>
+              <h4 onclick="openQuickViewModal(${p.id})" class="font-sans font-semibold text-xs leading-tight text-ana-dark hover:text-ana-primary cursor-pointer mb-1 line-clamp-2 min-h-[30px]">${p.name}</h4>
+              <div class="flex text-ana-gold text-[10px] mb-2">★★★★★</div>
+              <div class="flex justify-between items-baseline">
+                <p class="text-xs sm:text-sm font-black text-ana-primary font-mono">${p.price.toFixed(2)} €</p>
+                <span class="text-[8px] text-gray-400 font-bold uppercase">La Réunion</span>
+              </div>
+            </div>
+
+            <button onclick="openQuickViewModal(${p.id})" class="w-full bg-ana-primary text-white text-[9.5px] font-bold py-2 rounded-md mt-3 hover:bg-ana-dark transition-all select-none">
+              AJOUTER AU PANIER
+            </button>
+          </div>
+        `;
+
+        if (p.id <= 8) {
+          coupsGrid.innerHTML += cardHtml;
+        } else {
+          newsGrid.innerHTML += cardHtml;
+        }
+      });
+    }
+
+    // --- DYNAMIC SEARCH & INTEGRATIVE FILTER ---
+    function filterProductsInstant(query) {
+      if (!query) {
+        drawProductListingCards("all");
+        return;
+      }
+      const coupsGrid = document.getElementById("coups-grid");
+      const newsGrid = document.getElementById("news-grid");
+      coupsGrid.innerHTML = "";
+      newsGrid.innerHTML = "";
+
+      STANDALONE_PRODUCTS.forEach((p) => {
+        if (!p.name.toLowerCase().includes(query.toLowerCase())) return;
+        const isFav = FAVORITES.includes(p.id);
+        const cardHtml = `
+          <div class="group relative bg-white rounded-xl p-3 flex flex-col justify-between border border-transparent shadow-[0_4px_12px_rgba(0,0,0,0.02)] hover:border-ana-pale transition-all transform hover:-translate-y-1">
+            <div class="flex justify-between items-center absolute top-3 left-3 right-3 z-10">
+              <span class="bg-ana-primary text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">${p.badge}</span>
+              <button onclick="toggleFavStandalone(${p.id})" class="bg-white/95 text-ana-primary p-1.5 rounded-full text-xs">
+                ${isFav ? '❤️' : '♡'}
+              </button>
+            </div>
+            <div onclick="openQuickViewModal(${p.id})" class="w-full aspect-square bg-ana-bg rounded-lg flex items-center justify-center mb-3">
+              <span class="text-5xl select-none">${p.emoji}</span>
+            </div>
+            <div>
+              <h4 onclick="openQuickViewModal(${p.id})" class="font-sans font-semibold text-xs leading-tight text-ana-dark hover:text-ana-primary mb-1 min-h-[30px]">${p.name}</h4>
+              <p class="text-sm font-bold text-ana-primary">${p.price.toFixed(2)} €</p>
+            </div>
+            <button onclick="openQuickViewModal(${p.id})" class="w-full bg-ana-primary text-white text-[9.5px] font-bold py-2 rounded-md mt-3 leading-none">AJOUTER</button>
+          </div>
+        `;
+        if (p.id <= 8) {
+          coupsGrid.innerHTML += cardHtml;
+        } else {
+          newsGrid.innerHTML += cardHtml;
+        }
+      });
+    }
+
+    function filterCategory(catId) {
+      drawProductListingCards(catId);
+      scrollToSection("shop-catalogue");
+      alertToast(`Sélection et filtre des créations : ${catId.toUpperCase()}`);
+    }
+
+    // --- FAVORITES ACCUMULATOR ---
+    function toggleFavStandalone(id) {
+      const idx = FAVORITES.indexOf(id);
+      const prod = STANDALONE_PRODUCTS.find(p => p.id === id);
+      if (idx > -1) {
+        FAVORITES.splice(idx, 1);
+        alertToast(`Retiré des favoris: ${prod.name}`, "info");
+      } else {
+        FAVORITES.push(id);
+        alertToast(`Coup de cœur ajouté ♡: ${prod.name}`);
+      }
+      
+      const badge = document.getElementById("fav-badge-count");
+      if (FAVORITES.length > 0) {
+        badge.innerText = FAVORITES.length;
+        badge.classList.remove("hidden");
+      } else {
+        badge.classList.add("hidden");
+      }
+
+      drawProductListingCards("all");
+      updateFavoritesDrawerList();
+    }
+
+    function updateFavoritesDrawerList() {
+      const list = document.getElementById("fav-items-standalone-list");
+      list.innerHTML = "";
+      if (FAVORITES.length === 0) {
+        list.innerHTML = `<div class="p-8 text-center text-xs text-gray-400 italic">Aucun coup de cœur pour l'instant.</div>`;
+        return;
+      }
+      FAVORITES.forEach((favId) => {
+        const p = STANDALONE_PRODUCTS.find(item => item.id === favId);
+        if (!p) return;
+        list.innerHTML += `
+          <div class="flex items-center gap-3 bg-ana-bg/50 p-2.5 rounded-xl border border-ana-pale/20">
+            <span class="text-3xl">${p.emoji}</span>
+            <div class="flex-1 min-w-0">
+              <h4 class="text-xs font-bold truncate">${p.name}</h4>
+              <span class="text-[10px] text-ana-primary font-mono font-bold">${p.price.toFixed(2)} €</span>
+            </div>
+            <button onclick="openQuickViewModal(${p.id})" class="p-1 px-2.5 bg-ana-primary text-white text-[10px] rounded uppercase font-bold">Ajouter</button>
+          </div>
+        `;
+      });
+    }
+
+    // --- CART DRAWER STATE BUILDER ---
+    function updateCartList() {
+      const parent = document.getElementById("cart-items-standalone-list");
+      const badge = document.getElementById("cart-badge-count");
+      const drawerBadge = document.getElementById("cart-drawer-items-count");
+      
+      parent.innerHTML = "";
+      let totalQty = 0;
+      let subtotal = 0;
+
+      BASKET.forEach((item, index) => {
+        totalQty += item.quantity;
+        const itemSum = item.product.price * item.quantity;
+        subtotal += itemSum;
+
+        parent.innerHTML += `
+          <div class="flex gap-3 bg-ana-bg/60 p-3 rounded-xl border border-ana-pale/30 relative">
+            <span class="text-4xl shrink-0 select-none">${item.product.emoji}</span>
+            <div class="flex-1">
+              <h4 class="text-xs font-bold leading-tight max-w-[85%]">${item.product.name}</h4>
+              <div class="text-[9.5px] italic text-[#C9A96E] mt-0.5">Personnalisation: "${item.customText}"</div>
+              <div class="text-[10px] font-black text-ana-primary font-mono mt-1">${itemSum.toFixed(2)} €</div>
+              
+              <div class="flex items-center gap-2 mt-2">
+                <button onclick="changeBasketQty(${index}, -1)" class="w-5 h-5 bg-white border rounded text-xs leading-none font-bold">-</button>
+                <span class="text-xs font-mono font-bold">${item.quantity}</span>
+                <button onclick="changeBasketQty(${index}, 1)" class="w-5 h-5 bg-white border rounded text-xs leading-none font-bold">+</button>
+              </div>
+            </div>
+            <button onclick="removeFromBasket(${index})" class="absolute top-2.5 right-2.5 text-gray-400">✕</button>
+          </div>
+        `;
+      });
+
+      badge.innerText = totalQty;
+      drawerBadge.innerText = totalQty;
+
+      const delivCost = subtotal >= 80 ? 0 : subtotal === 0 ? 0 : 5.90;
+      const totalTtc = subtotal + delivCost;
+
+      document.getElementById("cart-subtotal-price").innerText = subtotal.toFixed(2) + " €";
+      document.getElementById("cart-delivery-cost").innerText = delivCost === 0 ? "Offerte 🎁" : delivCost.toFixed(2) + " €";
+      document.getElementById("cart-total-price").innerText = totalTtc.toFixed(2) + " €";
+    }
+
+    function changeBasketQty(idx, change) {
+      BASKET[idx].quantity += change;
+      if (BASKET[idx].quantity <= 0) {
+        BASKET.splice(idx, 1);
+      }
+      updateCartList();
+    }
+
+    function removeFromBasket(idx) {
+      BASKET.splice(idx, 1);
+      updateCartList();
+      alertToast("Article retiré du panier", "info");
+    }
+
+    function triggerCheckoutAlert() {
+      if (BASKET.length === 0) {
+        alertToast("Votre panier est vide.", "info");
+        return;
+      }
+      alert(`Simulation d'achat réussie ! 🎉\nMerci pour votre soutien virtuel. Votre commande de ${document.getElementById("cart-total-price").innerText} est enregistrée et sera traitée manuellement à la Réunion.`);
+      BASKET = [];
+      updateCartList();
+      toggleCartDrawer(false);
+    }
+
+    // --- CUSTOMIZER PREVIEW MODALS ---
+    function openQuickViewModal(productId) {
+      const p = STANDALONE_PRODUCTS.find(prod => prod.id === productId);
+      if (!p) return;
+
+      ACTIVE_MODAL_PRODUCT = p;
+      document.getElementById("modal-title").innerText = p.name;
+      document.getElementById("modal-desc").innerText = p.desc;
+      document.getElementById("modal-preview-icon").innerText = p.emoji;
+      document.getElementById("modal-preview-text").innerText = "";
+      document.getElementById("modal-custom-text-input").value = "";
+
+      document.getElementById("quick-view-modal-overlay").classList.remove("hidden");
+    }
+
+    function closeQuickViewModal() {
+      document.getElementById("quick-view-modal-overlay").classList.add("hidden");
+      ACTIVE_MODAL_PRODUCT = null;
+    }
+
+    function updateLivePreviewText(val) {
+      document.getElementById("modal-preview-text").innerText = val ? `"${val}"` : "";
+    }
+
+    function confirmModalSubmit(e) {
+      e.preventDefault();
+      const txt = document.getElementById("modal-custom-text-input").value;
+      const mat = document.getElementById("modal-mat-select").value;
+
+      BASKET.push({
+        product: ACTIVE_MODAL_PRODUCT,
+        quantity: 1,
+        customText: txt || "Non renseigné",
+        material: mat
+      });
+
+      updateCartList();
+      closeQuickViewModal();
+      alertToast(`"${ACTIVE_MODAL_PRODUCT.name}" personnalisé ajouté.`);
+      toggleCartDrawer(true);
+    }
+
+    // --- FORM MOCK SUBMISSIONS ---
+    function handleMockNewsletter(e) {
+      e.preventDefault();
+      document.getElementById("news-form-standalone").classList.add("hidden");
+      document.getElementById("news-confirm-box").classList.remove("hidden");
+      alertToast("✓ Inscription Newsletter enregistrée");
+      return false;
+    }
+
+    function handleMockContact(e) {
+      e.preventDefault();
+      document.getElementById("contact-form-standalone").classList.add("hidden");
+      document.getElementById("contact-confirm-standalone").classList.remove("hidden");
+      alertToast("✓ Message de l'atelier envoyé");
+      return false;
+    }
+
+    function openLoginModal() {
+      document.getElementById("login-modal-overlay").classList.remove("hidden");
+    }
+
+    function closeLoginModal() {
+      document.getElementById("login-modal-overlay").classList.add("hidden");
+    }
+
+    function handleMockLogin(e) {
+      e.preventDefault();
+      closeLoginModal();
+      alertToast("✓ Connexion simulée au compte client réussie");
+    }
+
+    // Page Load Setup
+    window.onload = () => {
+      drawProductListingCards("all");
+      setupRealCountdownTimer();
+    };
+  </script>
+</body>
+</html>

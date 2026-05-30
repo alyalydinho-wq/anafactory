@@ -1,0 +1,6 @@
+{
+  "name": "AnaFactory",
+  "description": "Boutique en ligne AnaFactory — créations faites main, personnalisées et sur-mesure pour mariages, naissances et toutes vos belles occasions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
